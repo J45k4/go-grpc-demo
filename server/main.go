@@ -7,6 +7,7 @@ import (
 	"github.com/j45k4/go-grpc-demo/service"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/reflection"
 )
@@ -20,7 +21,12 @@ func main() {
 		grpclog.Fatalf("failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer()
+	creds, err := credentials.NewServerTLSFromFile("./server.crt", "./server.key")
+	if err != nil {
+		log.Fatalf("Failed to generate credentials %v", err)
+	}
+
+	s := grpc.NewServer(grpc.Creds(creds))
 	GrpcDemoService.RegisterGrpcDemoServiceServer(s, &GrpcDemoServer{})
 
 	reflection.Register(s)

@@ -12,11 +12,14 @@ let credentials = grpc.credentials.createSsl(
 	fs.readFileSync(path.join(__dirname, "./client.crt"))
 );
 
-var client = new services.GrpcDemoServiceClient("182.168.99.100:7777", credentials);
+var client = new services.GrpcDemoServiceClient("localhost:7777", credentials);
 
 var req = new messages.HelloRequest();
 req.setName("jaska");
 
 client.hello(req, (err, res) => {
-    console.log("error happended ", err);
+	if (err) console.log("error happended ", err);
+	else {
+		console.log("returnString", res.getReturnstring());
+	}
 });

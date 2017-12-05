@@ -32,7 +32,7 @@ func main() {
 		RootCAs:      caCertPool,
 	})
 
-	conn, err := grpc.Dial("192.168.99.100:7777", grpc.WithTransportCredentials(ta))
+	conn, err := grpc.Dial("localhost:7777", grpc.WithTransportCredentials(ta))
 
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
